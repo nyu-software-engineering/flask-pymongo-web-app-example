@@ -1,7 +1,15 @@
 .container {
   border: 2px solid;
-  width: 50%;
+  max-width: 1200px;
   margin: 0 auto;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  gap: 10em; /* space between elements in the row */
+  justify-content: space-between; /* align along the flex direction */
+  align-items: center; /* align across the flex direction */
 }
 
 header,
@@ -16,8 +24,25 @@ main {
   margin-bottom: 5px;
 }
 
-p.post {
+section.posts {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+article.post {
+  border: 1px solid black;
+  padding: 10px;
+}
+article.post .controls {
   font-size: 12px;
+}
+article.post .author {
+  font-size: 12px;
+}
+article.post p.message {
+  font-size: 24px;
 }
 
 footer {

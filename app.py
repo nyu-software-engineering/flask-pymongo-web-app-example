@@ -41,18 +41,8 @@ def home():
     """
     Route for the home page
     """
-    return render_template('index.html')
-
-
-@app.route('/read')
-def read():
-    """
-    Route for GET requests to the read page.
-    Displays some information for the user with links to other pages.
-    """
     docs = db.exampleapp.find({}).sort("created_at", -1) # sort in descending order of created_at timestamp
-    return render_template('read.html', docs=docs) # render the read template
-
+    return render_template('index.html', docs=docs) # render the hone template
 
 @app.route('/create')
 def create():
@@ -81,7 +71,7 @@ def create_post():
     }
     db.exampleapp.insert_one(doc) # insert a new document
 
-    return redirect(url_for('read')) # tell the browser to make a request for the /read route
+    return redirect(url_for('home')) # tell the browser to make a request for the / route (the home function)
 
 
 @app.route('/edit/<mongoid>')
@@ -115,17 +105,17 @@ def edit_post(mongoid):
         { "$set": doc }
     )
 
-    return redirect(url_for('read')) # tell the browser to make a request for the /read route
+    return redirect(url_for('home')) # tell the browser to make a request for the / route (the home function)
 
 
 @app.route('/delete/<mongoid>')
 def delete(mongoid):
     """
     Route for GET requests to the delete page.
-    Deletes the specified record from the database, and then redirects the browser to the read page.
+    Deletes the specified record from the database, and then redirects the browser to the home page.
     """
     db.exampleapp.delete_one({"_id": ObjectId(mongoid)})
-    return redirect(url_for('read')) # tell the web browser to make a request for the /read route.
+    return redirect(url_for('home')) # tell the web browser to make a request for the / route (the home function)
 
 
 @app.errorhandler(Exception)

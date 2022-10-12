@@ -1,11 +1,29 @@
 {% extends 'base.html' %}
 
 {% block container %}
-<h2>Welcome!</h2>
-<p>Welcome to the Flask app. This is the home page. Here are a few links to example pages you might find interesting.
-    <ul>
-        <li><a href="{{ url_for('read')}}">a page that displays information pulled from a MongoDB database collection</a></li>
-        <li><a href="{{ url_for('create')}}">a page with a form you can submit to create a new record in a MongoDB collection</a></li>
-    </ul>
-</p>
+
+    <section>
+        {% include '_new_post_form.html' %}
+    </section>
+
+    <h2>Posts</h2>
+    <section class="posts">
+
+        {% for doc in docs %}
+        <article class="post">
+            <nav class="controls">
+                <a href="{{ url_for('edit',mongoid=doc._id)}}">Edit</a> | <a href="{{ url_for('delete',mongoid=doc._id)}}">Delete</a>
+            </nav>
+            <p class="author">
+                {{doc.name}} at {{ doc.created_at.strftime("%H:%M on %d %B %Y") }}
+            </p>
+            <p class="message">
+                {{ doc.message }}
+            </p>
+            </p>
+        </article>
+        {%endfor%}
+
+    </section>
+
 {% endblock %}
