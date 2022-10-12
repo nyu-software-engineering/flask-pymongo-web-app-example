@@ -27,10 +27,8 @@ A file named `.env` is necessary to run the application. This file contains sens
 An example file named `env.example` is given. Copy this into a file named `.env` and edit the values to match your database. If following the instructions and using Docker to run the database, the values should be:
 
 ```
-MONGO_HOST=localhost:27017
-MONGO_USER=admin
-MONGO_PASSWORD=secret
-MONGO_DBNAME=web-app-example-db
+MONGO_DBNAME=example
+MONGO_URI="mongodb://admin:secret@localhost:27017/example?authSource=admin&retryWrites=true&w=majority"
 ```
 
 The other values can be left alone.
@@ -71,5 +69,8 @@ pip3 install -r requirements.txt
 
 ### Run the app
 
-1. start flask with `flask run` - this will output an address at which the app is running locally, e.g. https://127.0.0.1:5000. Visit that address in a web browser.
-1. in some cases, the command `flask` will not be found when attempting `flask run`... you can alternatively launch it with `python3 -m flask run --host=0.0.0.0 --port=10000`.
+- define two environment variables from the command line:
+  - on Mac, use the commands: `export FLASK_APP=app.py` and `export FLASK_ENV=development`.
+  - on Windows, use `set FLASK_APP=app.py` and `set FLASK_ENV=development`.
+- start flask with `flask run` - this will output an address at which the app is running locally, e.g. https://127.0.0.1:5000. Visit that address in a web browser.
+- in some cases, the command `flask` will not be found when attempting `flask run`... you can alternatively launch it with `python3 -m flask run --host=0.0.0.0 --port=10000`.

@@ -1,32 +1,38 @@
 #!/usr/bin/env python3
 
 from flask import Flask, render_template, request, redirect, url_for, make_response
-from markupsafe import escape
+from dotenv import dotenv_values
+
 import pymongo
 import datetime
 from bson.objectid import ObjectId
-import os
-import subprocess
+import sys
 
 # instantiate the app
 app = Flask(__name__)
 
 # load credentials and configuration options from .env file
 # if you do not yet have a file named .env, make one based on the template in env.example
-import credentials
-config = credentials.get()
+config = dotenv_values(".env")
 
 # turn on debugging if in development mode
 if config['FLASK_ENV'] == 'development':
     # turn on debugging, if in development
     app.debug = True # debug mnode
 
-# make one persistent connection to the database
-connection = pymongo.MongoClient(config['MONGO_HOST'], 27017, 
-                                username=config['MONGO_USER'],
-                                password=config['MONGO_PASSWORD'],
-                                authSource=config['MONGO_DBNAME'])
-db = connection[config['MONGO_DBNAME']] # store a reference to the database
+
+# connect to the database
+cxn = pymongo.MongoClient(config['MONGO_URI'], serverSelectionTimeoutMS=5000)
+try:
+    # verify the connection works by pinging the database
+    cxn.admin.command('ping') # The ping command is cheap and does not require auth.
+    db = cxn[config['MONGO_DBNAME']] # store a reference to the database
+    print(' *', 'Connected to MongoDB!') # if we get here, the connection worked!
+except Exception as e:
+    # the ping command failed, so the connection is not available.
+    # render_template('error.html', error=e) # render the edit template
+    print(' *', "Failed to connect to MongoDB at", config['MONGO_URI'])
+    print('Database connection error:', e) # debug
 
 # set up the routes
 
@@ -121,24 +127,6 @@ def delete(mongoid):
     db.exampleapp.delete_one({"_id": ObjectId(mongoid)})
     return redirect(url_for('read')) # tell the web browser to make a request for the /read route.
 
-@app.route('/webhook', methods=['POST'])
-def webhook():
-    """
-    GitHub can be configured such that each time a push is made to a repository, GitHub will make a request to a particular web URL... this is called a webhook.
-    This function is set up such that if the /webhook route is requested, Python will execute a git pull command from the command line to update this app's codebase.
-    You will need to configure your own repository to have a webhook that requests this route in GitHub's settings.
-    Note that this webhook does do any verification that the request is coming from GitHub... this should be added in a production environment.
-    """
-    # run a git pull command
-    process = subprocess.Popen(["git", "pull"], stdout=subprocess.PIPE)
-    pull_output = process.communicate()[0]
-    # pull_output = str(pull_output).strip() # remove whitespace
-    process = subprocess.Popen(["chmod", "a+x", "flask.cgi"], stdout=subprocess.PIPE)
-    chmod_output = process.communicate()[0]
-    # send a success response
-    response = make_response('output: {}'.format(pull_output), 200)
-    response.mimetype = "text/plain"
-    return response
 
 @app.errorhandler(Exception)
 def handle_error(e):
