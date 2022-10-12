@@ -36,6 +36,7 @@ except Exception as e:
 
 # set up the routes
 
+# route for the home page
 @app.route('/')
 def home():
     """
@@ -44,15 +45,7 @@ def home():
     docs = db.exampleapp.find({}).sort("created_at", -1) # sort in descending order of created_at timestamp
     return render_template('index.html', docs=docs) # render the hone template
 
-@app.route('/create')
-def create():
-    """
-    Route for GET requests to the create page.
-    Displays a form users can fill out to create a new document.
-    """
-    return render_template('create.html') # render the create template
-
-
+# route to accept form submission and create a new post
 @app.route('/create', methods=['POST'])
 def create_post():
     """
@@ -74,6 +67,7 @@ def create_post():
     return redirect(url_for('home')) # tell the browser to make a request for the / route (the home function)
 
 
+# route to view the edit form for an existing post
 @app.route('/edit/<mongoid>')
 def edit(mongoid):
     """
@@ -84,6 +78,7 @@ def edit(mongoid):
     return render_template('edit.html', mongoid=mongoid, doc=doc) # render the edit template
 
 
+# route to accept the form submission to delete an existing post
 @app.route('/edit/<mongoid>', methods=['POST'])
 def edit_post(mongoid):
     """
@@ -107,7 +102,7 @@ def edit_post(mongoid):
 
     return redirect(url_for('home')) # tell the browser to make a request for the / route (the home function)
 
-
+# route to delete a specific post
 @app.route('/delete/<mongoid>')
 def delete(mongoid):
     """
@@ -118,6 +113,7 @@ def delete(mongoid):
     return redirect(url_for('home')) # tell the web browser to make a request for the / route (the home function)
 
 
+# route to handle any errors
 @app.errorhandler(Exception)
 def handle_error(e):
     """
@@ -126,6 +122,7 @@ def handle_error(e):
     return render_template('error.html', error=e) # render the edit template
 
 
+# run the app
 if __name__ == "__main__":
     #import logging
     #logging.basicConfig(filename='/home/ak8257/error.log',level=logging.DEBUG)

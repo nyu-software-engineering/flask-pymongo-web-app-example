@@ -15,7 +15,7 @@ header {
 header,
 footer,
 main {
-  padding: 20px;
+  padding: 2rem;
 }
 
 header,
@@ -28,12 +28,12 @@ section.posts {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 1rem;
 }
 
 article.post {
   border: 1px solid black;
-  padding: 10px;
+  padding: 1rem;
 }
 article.post .controls {
   font-size: 12px;
