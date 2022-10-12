@@ -11,7 +11,9 @@
     <div class="container">
       <header>
         <h1>Flask-Pymongo Example App</h1>
-        <p><a href="{{ url_for('home')}}">Home</a> |</p>
+        <nav>
+          <a href="{{ url_for('home')}}">Home</a>
+        </nav>
       </header>
       <main>{% block container %} {% endblock %}</main>
       <footer>
