@@ -14,7 +14,7 @@ The back-end code will integrate with this database. However, it may be occasion
 
 - connect to the database server from the command line: `docker exec -ti mongodb_dockerhub mongosh -u admin -p secret`
 - show the available databases: `show dbs`
-- select the database used by this app: `use web-app-example-db`
+- select the database used by this app: `use example`
 - show the documents stored in the `messages` collection: `db.messages.find()` - this will be empty at first, but will later be populated by the app.
 - exit the database shell whenever you have had your fill: `exit`
 
