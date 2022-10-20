@@ -35,6 +35,9 @@ article.post {
   border: 1px solid black;
   padding: 1rem;
 }
+article.post.new-post {
+  background-color: #f0f0f0;
+}
 article.post .controls {
   font-size: 12px;
 }

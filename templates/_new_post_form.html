@@ -2,13 +2,9 @@
 
 <h2>Create a Post</h2>
 <form method="POST" action="{{ url_for('create_post') }}">
-  <p>Your name: <input type="text" id="fname" name="fname" /><br /></p>
-  <p>
-    Message:
-    <textarea type="text" id="fmessage" name="fmessage"></textarea>
-  </p>
-  <p>
-    <input type="reset" value="Reset" />
-    <input type="submit" name="post-btn" value="Save" />
-  </p>
+  <input type="text" id="fname" name="fname" placeholder="Your name"/>
+  <br />
+  <textarea type="text" id="fmessage" name="fmessage" placeholder="Message"></textarea>
+  <br />
+  <input type="submit" value="Save" />
 </form>

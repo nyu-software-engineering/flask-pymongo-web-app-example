@@ -2,17 +2,17 @@
 
 {% block container %}
 
-    <section>
-        {% include '_new_post_form.html' %}
-    </section>
-
     <h2>Posts</h2>
     <section class="posts">
+
+        <article class="post new-post">
+            {% include '_new_post_form.html' %}
+        </article>
 
         {% for doc in docs %}
         <article class="post">
             <nav class="controls">
-                <a href="{{ url_for('edit',mongoid=doc._id)}}">Edit</a> | <a href="{{ url_for('delete',mongoid=doc._id)}}">Delete</a>
+                <a href="{{ url_for('edit', post_id=doc._id)}}">Edit</a> | <a href="{{ url_for('delete', post_id=doc._id)}}">Delete</a>
             </nav>
             <p class="author">
                 {{doc.name}} at {{ doc.created_at.strftime("%H:%M on %d %B %Y") }}

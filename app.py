@@ -30,7 +30,6 @@ try:
     print(' *', 'Connected to MongoDB!') # if we get here, the connection worked!
 except Exception as e:
     # the ping command failed, so the connection is not available.
-    # render_template('error.html', error=e) # render the edit template
     print(' *', "Failed to connect to MongoDB at", config['MONGO_URI'])
     print('Database connection error:', e) # debug
 
@@ -42,7 +41,7 @@ def home():
     """
     Route for the home page
     """
-    docs = db.exampleapp.find({}).sort("created_at", -1) # sort in descending order of created_at timestamp
+    docs = db.messages.find({}).sort("created_at", -1) # sort in descending order of created_at timestamp
     return render_template('index.html', docs=docs) # render the hone template
 
 # route to accept form submission and create a new post
@@ -62,25 +61,25 @@ def create_post():
         "message": message, 
         "created_at": datetime.datetime.utcnow()
     }
-    db.exampleapp.insert_one(doc) # insert a new document
+    db.messages.insert_one(doc) # insert a new document
 
     return redirect(url_for('home')) # tell the browser to make a request for the / route (the home function)
 
 
 # route to view the edit form for an existing post
-@app.route('/edit/<mongoid>')
-def edit(mongoid):
+@app.route('/edit/<post_id>')
+def edit(post_id):
     """
     Route for GET requests to the edit page.
     Displays a form users can fill out to edit an existing record.
     """
-    doc = db.exampleapp.find_one({"_id": ObjectId(mongoid)})
-    return render_template('edit.html', mongoid=mongoid, doc=doc) # render the edit template
+    doc = db.messages.find_one({"_id": ObjectId(post_id)})
+    return render_template('edit.html', doc=doc) # render the edit template
 
 
 # route to accept the form submission to delete an existing post
-@app.route('/edit/<mongoid>', methods=['POST'])
-def edit_post(mongoid):
+@app.route('/edit/<post_id>', methods=['POST'])
+def edit_post(post_id):
     """
     Route for POST requests to the edit page.
     Accepts the form submission data for the specified document and updates the document in the database.
@@ -89,27 +88,27 @@ def edit_post(mongoid):
     message = request.form['fmessage']
 
     doc = {
-        # "_id": ObjectId(mongoid), 
+        # "_id": ObjectId(post_id), 
         "name": name, 
         "message": message, 
         "created_at": datetime.datetime.utcnow()
     }
 
-    db.exampleapp.update_one(
-        {"_id": ObjectId(mongoid)}, # match criteria
+    db.messages.update_one(
+        {"_id": ObjectId(post_id)}, # match criteria
         { "$set": doc }
     )
 
     return redirect(url_for('home')) # tell the browser to make a request for the / route (the home function)
 
 # route to delete a specific post
-@app.route('/delete/<mongoid>')
-def delete(mongoid):
+@app.route('/delete/<post_id>')
+def delete(post_id):
     """
     Route for GET requests to the delete page.
     Deletes the specified record from the database, and then redirects the browser to the home page.
     """
-    db.exampleapp.delete_one({"_id": ObjectId(mongoid)})
+    db.messages.delete_one({"_id": ObjectId(post_id)})
     return redirect(url_for('home')) # tell the web browser to make a request for the / route (the home function)
 
 
