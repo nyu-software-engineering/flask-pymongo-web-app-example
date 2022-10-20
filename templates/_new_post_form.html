@@ -1,14 +1,13 @@
 <!-- form used to create a new post -->
 
-<h2>Create a Post</h2>
+<h2>Write a Post</h2>
+
+{% if user.is_authenticated %}
 <form method="POST" action="{{ url_for('create_post') }}">
-  <p>Your name: <input type="text" id="fname" name="fname" /><br /></p>
-  <p>
-    Message:
-    <textarea type="text" id="fmessage" name="fmessage"></textarea>
-  </p>
-  <p>
-    <input type="reset" value="Reset" />
-    <input type="submit" name="post-btn" value="Save" />
-  </p>
+  <textarea type="text" id="fmessage" name="fmessage" placeholder="Message"></textarea>
+  <br />
+  <input type="submit" name="post-btn" value="Save" />
 </form>
+{% else %}
+You must be <a href="{{ url_for('login')}}">logged in</a> to post.
+{% endif %}

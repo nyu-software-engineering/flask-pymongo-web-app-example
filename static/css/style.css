@@ -1,3 +1,8 @@
+* {
+  font-family: helvetica;
+  font-weight: normal;
+}
+
 .container {
   border: 2px solid;
   max-width: 1200px;
@@ -35,6 +40,9 @@ article.post {
   border: 1px solid black;
   padding: 1rem;
 }
+article.post.new-post {
+  background-color: #f0f0f0;
+}
 article.post .controls {
   font-size: 12px;
 }
@@ -47,4 +55,17 @@ article.post p.message {
 
 footer {
   margin-bottom: 5px;
+}
+
+.flashes p {
+  background-color: pink;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+form input,
+form textarea {
+  padding: 10px;
+  border: 1px solid gray;
+  margin: 10px 0;
 }

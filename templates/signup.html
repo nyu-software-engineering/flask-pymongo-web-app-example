@@ -1,0 +1,17 @@
+{% extends 'base.html' %} 
+
+{% block container %}
+
+<h2>Create an account</h2>
+<p>
+  Already have an account? <a href="{{ url_for('login') }}">Log in</a>!
+</p>  
+<form action="{{ url_for('signup_submit') }}" method="POST">
+  <input type="email" name="email" id="email" placeholder="email" />
+  <br />
+  <input type="password" name="password" id="password" placeholder="password" />
+  <br />
+  <input type="submit" name="submit" value="Sign up" />
+</form>
+
+{% endblock %}

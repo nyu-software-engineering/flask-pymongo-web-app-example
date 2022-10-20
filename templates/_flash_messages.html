@@ -1,0 +1,11 @@
+{% with messages = get_flashed_messages() %}
+
+{% if messages %}
+<section class="flashes">
+    {% for message in messages %}
+        <p class="error">{{ message }}</p>
+    {% endfor %}
+</section>
+{% endif %}
+
+{% endwith %}

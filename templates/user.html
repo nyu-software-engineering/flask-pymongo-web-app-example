@@ -2,12 +2,9 @@
 
 {% block container %}
 
-    <h2>Posts</h2>
+    <h2>{{ author.email }}'s posts</h2>
+    <p>Return to <a href="{{ url_for('home') }}">all posts</a>.</p>
     <section class="posts">
-
-        <article class="post new-post">
-            {% include '_new_post_form.html' %}
-        </article>
 
         {% for doc in docs %}
         <article class="post">

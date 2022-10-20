@@ -1,0 +1,12 @@
+      <nav>
+        {% if user.is_authenticated %}
+        Welcome, {{user.data.email }}!<br />
+        <li>
+          <a href="{{ url_for('logout')}}">Logout</a>
+        </li>
+        {% else %}
+        <li><a href="{{ url_for('home')}}">Home</a></li>
+        <li><a href="{{ url_for('login')}}">Login</a></li>
+        <li><a href="{{ url_for('signup')}}">Sign up</a></li>
+        {% endif %}
+      </nav>

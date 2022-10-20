@@ -11,10 +11,9 @@
     <div class="container">
       <header>
         <h1>Flask-Pymongo Example App</h1>
-        <nav>
-          <a href="{{ url_for('home')}}">Home</a>
-        </nav>
+        {% include '_main_nav.html' %}
       </header>
+      {% include '_flash_messages.html' %}
       <main>{% block container %} {% endblock %}</main>
       <footer>
         <p>
