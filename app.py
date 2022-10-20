@@ -199,6 +199,12 @@ def signup_submit():
     email = request.form['email']
     password = request.form['password']
     hashed_password = generate_password_hash(password) # generate a hashed password to store - don't store the original
+    
+    # check whether an account with this email already exists... don't allow duplicates
+    if locate_user(email=email):
+        flash('An account for {} already exists.  Please log in.'.format(email))
+        return redirect(url_for('login')) # redirect to login page
+
     # create a new document in the database for this new user
     user_id = db.users.insert_one({"email": email, "password": hashed_password}).inserted_id # hash the password and save it to the database
     if user_id:
