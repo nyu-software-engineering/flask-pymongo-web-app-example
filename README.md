@@ -1,5 +1,7 @@
 # Flask-MongoDB Web App Example
 
+![Dockerize badge](https://github.com/nyu-software-engineering/flask-mongodb-web-app-example/actions/workflows/build.yaml/badge.svg)
+
 An example of a full-stack web application, built in Python with `flask` and `pymongo`.
 
 ## Quick test drive
