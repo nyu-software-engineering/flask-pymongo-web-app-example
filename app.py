@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 from flask import Flask, render_template, request, redirect, url_for, make_response
-from dotenv import dotenv_values
+from dotenv import load_dotenv
+import os
 
 import pymongo
 import datetime
@@ -13,24 +14,23 @@ app = Flask(__name__)
 
 # load credentials and configuration options from .env file
 # if you do not yet have a file named .env, make one based on the template in env.example
-config = dotenv_values(".env")
+load_dotenv()  # take environment variables from .env.
 
 # turn on debugging if in development mode
-if config['FLASK_ENV'] == 'development':
+if os.getenv('FLASK_ENV', 'development') == 'development':
     # turn on debugging, if in development
     app.debug = True # debug mnode
 
-
 # connect to the database
-cxn = pymongo.MongoClient(config['MONGO_URI'], serverSelectionTimeoutMS=5000)
+cxn = pymongo.MongoClient(os.getenv('MONGO_URI'), serverSelectionTimeoutMS=5000)
 try:
     # verify the connection works by pinging the database
     cxn.admin.command('ping') # The ping command is cheap and does not require auth.
-    db = cxn[config['MONGO_DBNAME']] # store a reference to the database
+    db = cxn[os.getenv('MONGO_DBNAME')] # store a reference to the database
     print(' *', 'Connected to MongoDB!') # if we get here, the connection worked!
 except Exception as e:
     # the ping command failed, so the connection is not available.
-    print(' *', "Failed to connect to MongoDB at", config['MONGO_URI'])
+    print(' *', "Failed to connect to MongoDB at", os.getenv('MONGO_URI'))
     print('Database connection error:', e) # debug
 
 # set up the routes
@@ -123,6 +123,8 @@ def handle_error(e):
 
 # run the app
 if __name__ == "__main__":
+    PORT = os.getenv('PORT', 5000) # use the PORT environment variable, or default to 5000
+
     #import logging
     #logging.basicConfig(filename='/home/ak8257/error.log',level=logging.DEBUG)
-    app.run(debug = True)
+    app.run(port=PORT)

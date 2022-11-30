@@ -2,12 +2,34 @@
 
 An example of a full-stack web application, built in Python with `flask` and `pymongo`.
 
-## Setup
+## Quick test drive
 
-### Build and launch the database
+The fastest way to see the example app in action on your own computer is to use [Docker](https://www.docker.com). _Note that you will not be able to edit the app code when running it this way... instructions below show you how to set up the app in a way that allows you to edit the code and see the changes._
 
 - install and run [docker desktop](https://www.docker.com/get-started)
 - create a [dockerhub](https://hub.docker.com/signup) account
+
+Start up a MongoDB database:
+
+- run command, `docker run --name mongodb_dockerhub -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=secret -d mongo:latest`
+
+Start up the app:
+
+- run command, `docker run -ti --rm -d -p 5000:5000 -e MONGO_DBNAME=example -e MONGO_URI="mongodb://admin:secret@host.docker.internal:27017/example?authSource=admin&retryWrites=true&w=majority" bloombar/flask-mongodb-web-app-example`
+- if you see an error about the port number being already in use, change the first `5000` in the command to a different port number, e.g. `-p 10000:5000` to use your computer's port `10000`.
+
+View the app in your browser:
+
+- open a web browser and go to `http://localhost:5000` (or change `5000` to whatever port number you used in the command above)
+
+## Setup for editing
+
+The following instructions show you how to set up the example app on your own computer in a way that allows you to edit it.
+
+### Build and launch the database
+
+If you have not already done so, start up a MongoDB database:
+
 - run command, `docker run --name mongodb_dockerhub -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=secret -d mongo:latest`
 
 The back-end code will integrate with this database. However, it may be occasionally useful interact with the database directly from the command line:
@@ -41,6 +63,8 @@ This command creates a new virtual environment with the name `.venv`:
 python3 -m venv .venv
 ```
 
+Replace `python3` with `python` if the `python3` command is not found on your system.
+
 ### Activate the virtual environment
 
 To activate the virtual environment named `.venv`...
@@ -67,12 +91,14 @@ To install the dependencies into the currently-active virtual environment, use `
 pip3 install -r requirements.txt
 ```
 
+Replace `pip3` with `pip` if the `pip3` command is not found on your system.
+
 ### Run the app
 
 - define two environment variables from the command line:
   - on Mac, use the commands: `export FLASK_APP=app.py` and `export FLASK_ENV=development`.
   - on Windows, use `set FLASK_APP=app.py` and `set FLASK_ENV=development`.
 - start flask with `flask run` - this will output an address at which the app is running locally, e.g. https://127.0.0.1:5000. Visit that address in a web browser.
-- in some cases, the command `flask` will not be found when attempting `flask run`... you can alternatively launch it with `python3 -m flask run --host=0.0.0.0 --port=10000`.
+- in some cases, the command `flask` will not be found when attempting `flask run`... you can alternatively launch it with `python3 -m flask run --host=0.0.0.0 --port=5000` (or change to `python -m ...` if the `python3` command is not found on your system).
 
 Note that this will run the app only on your own computer. Other people will not be able to access it. If you want to allow others to access the app running on your local machine, try using the [flask-ngrok](https://pypi.org/project/flask-ngrok/) module.
