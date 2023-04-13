@@ -17,7 +17,7 @@ Start up a MongoDB database:
 
 Start up the app:
 
-- run command, `docker run -ti --rm -d -p 5000:5000 -e MONGO_DBNAME=example -e MONGO_URI="mongodb://admin:secret@host.docker.internal:27017/example?authSource=admin&retryWrites=true&w=majority" bloombar/flask-mongodb-web-app-example`
+- run command, `docker run -ti --rm -d -p 5000:5000 -e MONGO_DBNAME=flask-mongodb-web-app-example -e MONGO_URI="mongodb://admin:secret@host.docker.internal:27017/example?authSource=admin&retryWrites=true&w=majority" bloombar/flask-mongodb-web-app-example`
 - if you see an error about the port number being already in use, change the first `5000` in the command to a different port number, e.g. `-p 10000:5000` to use your computer's port `10000`.
 
 View the app in your browser:
