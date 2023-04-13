@@ -46,7 +46,7 @@ If you have trouble running Docker on your computer, use a database hosted on [M
 
 ### Create a `.env` file
 
-A file named `.env` is necessary to run the application. This file contains sensitive environment variables holding credentials such as the database connection string, username, password, etc. This file should be excluded from version control in the `[.gitignore](.gitignore)` file.
+A file named `.env` is necessary to run the application. This file contains sensitive environment variables holding credentials such as the database connection string, username, password, etc. This file should be excluded from version control in the [`.gitignore`](.gitignore) file.
 
 An example file named `env.example` is given. Copy this into a file named `.env` and edit the values to match your database. If following the instructions and using Docker to run the database, the values should be:
 
@@ -57,17 +57,43 @@ MONGO_URI="mongodb://admin:secret@localhost:27017/example?authSource=admin&retry
 
 The other values can be left alone.
 
+### pip
+
+Note that most Python programs require the use of the package manager named `pip` - the default Python "package manager". A package manager is software that takes care of installing the correct version of any modules in the correct place for the current system you are running it on. It comes with most distributions of Python. On many machines, the Python 3-compatible version it is calld `pip3` and on others it is simply `pip`... on some either works. If you are unsure, try both in the commands where you see it mentioned.
+
 ### Set up a Python virtual environment
+
+There are multiple ways to set up a Python virtual environment - a specific area of memory and disk space where you can install the dependencies and settings necessary to run a specific app in isolation from other apps on the same computer... here are instructions for using either `pipenv` or `venv`.
+
+### Using pipenv
+
+The ability to make virtual environemnts with [pipenv](https://pypi.org/project/pipenv/) is relatively easy, but it does not come pre-installed with Python. It must be installed.
+
+Install `pipenv` using `pip`:
+
+```
+pip3 install pipenv
+```
+
+Activate it:
+
+```
+pipenv shell
+```
+
+Your command line will now be running within a virtual environment.
+
+The file named, `Pipfile` contains a list of dependencies - other Python modules that this app depends upon to run. These will have been automatically installed into the virtual environment by `pipenv` when you ran the command `pipenv shell`.
+
+#### Using venv
+
+If you refuse to use `pipenv` for some reason, you can use the more traditional [venv](https://docs.python.org/3/library/venv.html) instead. The ability to make virtual environments with`venv` comes included with standard Python distributions.
 
 This command creates a new virtual environment with the name `.venv`:
 
 ```bash
 python3 -m venv .venv
 ```
-
-Replace `python3` with `python` if the `python3` command is not found on your system.
-
-### Activate the virtual environment
 
 To activate the virtual environment named `.venv`...
 
@@ -83,17 +109,13 @@ On Windows:
 .venv\Scripts\activate.bat
 ```
 
-### Install dependencies into the virtual environment
+The `pip` settings file named, `requirements.txt` contains a list of dependencies - other Python modules that this app depends upon to run.
 
-The file named, `requirements.txt` contains a list of dependencies - other Python modules that this app depends upon to run.
-
-To install the dependencies into the currently-active virtual environment, use `pip`, the default Python "package manager" - software that takes care of installing the correct version of any module into your in the correct place for the current environment.
+To install the dependencies into the currently-active virtual environment, use `pip`:
 
 ```bash
 pip3 install -r requirements.txt
 ```
-
-Replace `pip3` with `pip` if the `pip3` command is not found on your system.
 
 ### Run the app
 
