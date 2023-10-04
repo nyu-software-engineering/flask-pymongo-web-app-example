@@ -87,7 +87,7 @@ The file named, `Pipfile` contains a list of dependencies - other Python modules
 
 #### Using venv
 
-If you refuse to use `pipenv` for some reason, you can use the more traditional [venv](https://docs.python.org/3/library/venv.html) instead. The ability to make virtual environments with`venv` comes included with standard Python distributions.
+If you refuse to use `pipenv` for some reason, you can use the more traditional [venv](https://docs.python.org/3/library/venv.html) instead. The ability to make virtual environments with `venv` comes included with standard Python distributions.
 
 This command creates a new virtual environment with the name `.venv`:
 
