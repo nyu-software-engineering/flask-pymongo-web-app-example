@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
-from flask import Flask, render_template, request, redirect, url_for, make_response
-from dotenv import load_dotenv
 import os
-
-import pymongo
 import datetime
+from flask import Flask, render_template, request, redirect, url_for
+
+# from markupsafe import escape
+import pymongo
 from bson.objectid import ObjectId
-import sys
+from dotenv import load_dotenv
 
 # instantiate the app
 app = Flask(__name__)
@@ -16,27 +16,27 @@ app = Flask(__name__)
 # if you do not yet have a file named .env, make one based on the template in env.example
 load_dotenv()  # take environment variables from .env.
 
-# turn on debugging if in development mode
-if os.getenv("FLASK_ENV", "development") == "development":
-    # turn on debugging, if in development
-    app.debug = True  # debug mnode
+# # turn on debugging if in development mode
+# if os.getenv("FLASK_ENV", "development") == "development":
+#     # turn on debugging, if in development
+#     app.debug = True  # debug mnode
 
 # connect to the database
-cxn = pymongo.MongoClient(os.getenv("MONGO_URI"), serverSelectionTimeoutMS=5000)
+cxn = pymongo.MongoClient(os.getenv("MONGO_URI"))
+db = cxn[os.getenv("MONGO_DBNAME")]  # store a reference to the database
+
+# the following try/except block is a way to verify that the database connection is alive (or not)
 try:
     # verify the connection works by pinging the database
     cxn.admin.command("ping")  # The ping command is cheap and does not require auth.
-    db = cxn[os.getenv("MONGO_DBNAME")]  # store a reference to the database
     print(" *", "Connected to MongoDB!")  # if we get here, the connection worked!
 except Exception as e:
     # the ping command failed, so the connection is not available.
-    print(" *", "Failed to connect to MongoDB at", os.getenv("MONGO_URI"))
-    print("Database connection error:", e)  # debug
+    print(" * MongoDB connection error:", e)  # debug
 
 # set up the routes
 
 
-# route for the home page
 @app.route("/")
 def home():
     """
@@ -126,10 +126,9 @@ def handle_error(e):
 
 # run the app
 if __name__ == "__main__":
-    PORT = os.getenv(
-        "PORT", 5000
-    )  # use the PORT environment variable, or default to 5000
+    # use the PORT environment variable, or default to 5000
+    FLASK_PORT = os.getenv("FLASK_PORT", "5000")
 
     # import logging
     # logging.basicConfig(filename='/home/ak8257/error.log',level=logging.DEBUG)
-    app.run(port=PORT)
+    app.run(port=FLASK_PORT, debug=True)
