@@ -23,7 +23,7 @@ View the app in your browser:
 
 - open a web browser and go to `http://localhost:5000` (or change `5000` to whatever port number you used for the `flask-app`.)
 
-If you edit any of the files in the project, you will have to stop and then restart the containers, as indicated above.
+_Note that you edit any of the files in the project, you will have to stop and then restart the containers, as indicated above._
 
 ## Option 2
 Alternatively, it is possible to boot up the `flask-app` separately from `mongodb`.   _Note that you will not be able to edit the app code when running it this way... instructions further below show you how to set up the app in a way that allows you to edit the code and see the changes._
