@@ -6,16 +6,30 @@ An example of a full-stack web application, built in Python with `flask` and `py
 
 ## Quick test drive
 
-The fastest way to see the example app in action on your own computer is to use [Docker](https://www.docker.com). _Note that you will not be able to edit the app code when running it this way... instructions below show you how to set up the app in a way that allows you to edit the code and see the changes._
+The fastest way to see the example app in action on your own computer is to use [Docker](https://www.docker.com). 
 
+First you must...
 - install and run [docker desktop](https://www.docker.com/get-started)
 - create a [dockerhub](https://hub.docker.com/signup) account
 
-Start up a MongoDB database:
+## Option 1
+Use Docker Compose to boot up both the `mongodb` database and the `flask-app` web app with one command:
+- `docker compose up --force-recreate --build` ... add -d to run in detached/background mode.
+- and then `docker compose down` in a separate terminal window to stop the containers when done.
 
+If you see an error message that a particular port is already in use, select a different port for either the `flask-app` or `mongodb` service, as necessary.  To do so, edit the first port number for that service in the `docker-compose.yml` file and try again. E.g., change the `flask-app`'s port to `10000:5000` if you want the flask app to run on port `10000` on your computer.  If changing the `flask-app` port in this way, you must also update the `FLASK_PORT` setting in the `docker-compose.yml` file to match.
+
+View the app in your browser:
+
+- open a web browser and go to `http://localhost:5000` (or change `5000` to whatever port number you used for the `flask-app`.)
+
+## Option 2
+Alternatively, it is possible to boot up the `flask-app` separately from `mongodb`.   _Note that you will not be able to edit the app code when running it this way... instructions further below show you how to set up the app in a way that allows you to edit the code and see the changes._
+
+Start up a MongoDB database first:
 - run command, `docker run --name mongodb_dockerhub -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=secret -d mongo:latest`
 
-Start up the app:
+Start up the `flask-app`:
 
 - run command, `docker run -ti --rm -d -p 5000:5000 -e MONGO_DBNAME=flask-mongodb-web-app-example -e MONGO_URI="mongodb://admin:secret@host.docker.internal:27017" bloombar/flask-mongodb-web-app-example`
 - if you see an error about the port number being already in use, change the first `5000` in the command to a different port number, e.g. `-p 10000:5000` to use your computer's port `10000`.
