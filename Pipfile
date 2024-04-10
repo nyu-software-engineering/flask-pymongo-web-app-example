@@ -11,9 +11,11 @@ flask-debugtoolbar = "==0.11.0"
 itsdangerous = "==1.1.0"
 jinja2 = "==2.11.3"
 markupsafe = "==1.1.1"
-pymongo = "==3.11.3"
+pymongo = "*"
 python-dotenv = "==0.16.0"
 werkzeug = "==1.0.1"
+pytest = "*"
+pytest-flask = "*"
 
 [dev-packages]
 
