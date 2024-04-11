@@ -106,6 +106,20 @@ def create_app():
         db.messages.delete_one({"_id": ObjectId(post_id)})
         return redirect(url_for("home"))
 
+    @app.route("/delete-by-content/<post_name>/<post_message>", methods=["POST"])
+    def delete_by_content(post_name, post_message):
+        """
+        Route for POST requests to delete all post by their author's name and post message.
+        Deletes the specified record from the database, and then redirects the browser to the home page.
+        Args:
+            post_name (str): The name of the author of the post.
+            post_message (str): The contents of the message of the post.
+        Returns:
+            redirect (Response): A redirect response to the home page.
+        """
+        db.messages.delete_many({"name": post_name, "message": post_message})
+        return redirect(url_for("home"))
+
     @app.errorhandler(Exception)
     def handle_error(e):
         """
