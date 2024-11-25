@@ -6,18 +6,21 @@ An example of a full-stack web application, built in Python with `flask` and `py
 
 ## Quick test drive
 
-The fastest way to see the example app in action on your own computer is to use [Docker](https://www.docker.com). 
+The fastest way to see the example app in action on your own computer is to use [Docker](https://www.docker.com).
 
 First you must...
+
 - install and run [docker desktop](https://www.docker.com/get-started)
 - create a [dockerhub](https://hub.docker.com/signup) account
 
 ## Option 1
+
 Use Docker Compose to boot up both the `mongodb` database and the `flask-app` web app with one command:
+
 - `docker compose up --force-recreate --build` ... add -d to run in detached/background mode.
 - and then `docker compose down` in a separate terminal window to stop the containers when done.
 
-If you see an error message that a particular port is already in use, select a different port for either the `flask-app` or `mongodb` service, as necessary.  To do so, edit the first port number for that service in the `docker-compose.yml` file and try again. E.g., change the `flask-app`'s port to `10000:5000` if you want the flask app to run on port `10000` on your computer.  If changing the `flask-app` port in this way, you must also update the `FLASK_PORT` setting in the `docker-compose.yml` file to match.
+If you see an error message that a particular port is already in use, select a different port for either the `flask-app` or `mongodb` service, as necessary. To do so, edit the first port number for that service in the `docker-compose.yml` file and try again. E.g., change the `flask-app`'s port to `10000:5000` if you want the flask app to run on port `10000` on your computer. If changing the `flask-app` port in this way, you must also update the `FLASK_PORT` setting in the `docker-compose.yml` file to match.
 
 View the app in your browser:
 
@@ -26,9 +29,11 @@ View the app in your browser:
 _Note that you edit any of the files in the project, you will have to stop and then restart the containers, as indicated above._
 
 ## Option 2
-Alternatively, it is possible to boot up the `flask-app` separately from `mongodb`.   _Note that you will not be able to edit the app code when running it this way... instructions further below show you how to set up the app in a way that allows you to edit the code and see the changes._
+
+Alternatively, it is possible to boot up the `flask-app` separately from `mongodb`. _Note that you will not be able to edit the app code when running it this way... instructions further below show you how to set up the app in a way that allows you to edit the code and see the changes._
 
 Start up a MongoDB database first:
+
 - run command, `docker run --name mongodb_dockerhub -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=secret -d mongo:latest`
 
 Start up the `flask-app`:
@@ -135,10 +140,25 @@ pip3 install -r requirements.txt
 
 ### Run the app
 
+#### development mode
+
+To run the app locally in development mode:
+
 - define two environment variables from the command line:
   - on Mac, use the commands: `export FLASK_APP=app.py` and `export FLASK_ENV=development`.
   - on Windows, use `set FLASK_APP=app.py` and `set FLASK_ENV=development`.
 - start flask with `flask run` - this will output an address at which the app is running locally, e.g. https://127.0.0.1:5000. Visit that address in a web browser.
 - in some cases, the command `flask` will not be found when attempting `flask run`... you can alternatively launch it with `python3 -m flask run --host=0.0.0.0 --port=5000` (or change to `python -m ...` if the `python3` command is not found on your system).
 
-Note that this will run the app only on your own computer. Other people will not be able to access it. If you want to allow others to access the app running on your local machine, try using the [flask-ngrok](https://pypi.org/project/flask-ngrok/) module.
+Note that this will run the app only on your own computer. Other people will not be able to access it. If you want to allow others to access the app running in development mode on your local machine, try using the [flask-ngrok](https://pypi.org/project/flask-ngrok/) module.
+
+#### production mode
+
+To run the app in production mode using a real web server, for example using [gunicorn](https://gunicorn.org/):
+
+- install `gunicorn`, if not yet already done.
+- define two environment variables from the command line:
+  - on Mac, use the commands: `export FLASK_APP=app.py` and `export FLASK_ENV=production`.
+  - on Windows, use `set FLASK_APP=app.py` and `set FLASK_ENV=production`.
+- start the app with `gunicorn --config gunicorn_config.py --bind 0.0.0.0:8080 wsgi:app` - this will output an address at which the app is running locally, e.g. `https://0.0.0.0:8080`. Visit that address in a web browser.
+- note that the server configuration can be adjusted in the included example file, [gunicorn_config.py](gunicorn_config.py).
