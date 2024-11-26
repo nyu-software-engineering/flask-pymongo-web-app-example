@@ -160,5 +160,5 @@ To run the app in production mode using a real web server, for example using [gu
 - define two environment variables from the command line:
   - on Mac, use the commands: `export FLASK_APP=app.py` and `export FLASK_ENV=production`.
   - on Windows, use `set FLASK_APP=app.py` and `set FLASK_ENV=production`.
-- start the app with `gunicorn --config gunicorn_config.py --bind 0.0.0.0:8080 wsgi:app` - this will output an address at which the app is running locally, e.g. `https://0.0.0.0:8080`. Visit that address in a web browser.
+- start the app with `gunicorn --config gunicorn_config.py wsgi:app` - this will output an address at which the app is running locally, e.g. `http://0.0.0.0:8080`. Visit that address in a web browser.
 - note that the server configuration can be adjusted in the included example file, [gunicorn_config.py](gunicorn_config.py).
