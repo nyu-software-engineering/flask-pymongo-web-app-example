@@ -1,6 +1,6 @@
 """
-Configuration settings for gunicorn, a lightweight WSGI-compatible web server for Python applications.
-See the README.md file for instructions on running this application in production mode using gunicorn.
+Configuration settings for gunicorn, a lightweight WSGI-compatible web server for deploying Python applications in production mode.
+See the README.md file for details on running this app in production mode.
 """
 
 import os
