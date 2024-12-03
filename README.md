@@ -142,7 +142,7 @@ pip3 install -r requirements.txt
 
 #### Development server
 
-To run the app locally in development mode:
+To run the app locally in development mode using Flask's built-in development web server:
 
 - define two environment variables from the command line:
   - on Mac, use the commands: `export FLASK_APP=app.py` and `export FLASK_ENV=development`.
