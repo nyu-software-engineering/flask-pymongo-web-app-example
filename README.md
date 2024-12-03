@@ -140,7 +140,7 @@ pip3 install -r requirements.txt
 
 ### Run the app
 
-#### development mode
+#### Development server
 
 To run the app locally in development mode:
 
@@ -152,7 +152,7 @@ To run the app locally in development mode:
 
 Note that this will run the app only on your own computer. Other people will not be able to access it. If you want to allow others to access the app running in development mode on your local machine, try using the [flask-ngrok](https://pypi.org/project/flask-ngrok/) module.
 
-#### production mode
+#### Production server
 
 To run the app in production mode using a real web server, for example using [gunicorn](https://gunicorn.org/):
 
